@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>CodePlayer</title>
+    <script src="jquery-2.1.4.min.js"></script>
+    <style>
+    html, body {
+      height: 100%;
+    }
+    body {
+      font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      height: 52px;
+      border-bottom: 2px solid #ccc;
+      background: #F1F1F1;
+    }
+    h1 {
+      font-size: x-large;
+      float: left;
+      width: 40%;
+      margin: 10px;
+      padding-left: 10px;
+    }
+    #controls {
+      float: left;
+      margin: 10px;
+      width: 50%;;
+    }
+    .btn {
+      padding: 10px;
+      border: 1px solid #ccc;
+      background: lightGrey;
+      cursor: pointer;
+    }
+    .btn:hover {
+      background: rgb(186, 184, 184);
+    }
+    .selected {
+      background: rgb(186, 184, 184);
+    }
+    .btn-html {
+      border-top-left-radius: 5px;
+      border-bottom-left-radius: 5px;
+    }
+    .btn-result {
+      border-top-right-radius: 5px;
+      border-bottom-right-radius: 5px;
+    }
+    .btn-run {
+      float: right;
+      border-radius: 5px;
+    }
+    section {
+      max-width: 32.8333333333333%;
+      height: 91%;
+      float: left;
+      border-left: 1px solid #ccc;
+      margin:0;
+    }
+    section h2 {
+      box-sizing: border-box;
+      position: relative;
+      float: right;
+      margin: 10px;
+      font-size: medium;
+      border: 1px solid #ccc;
+      padding: 5px;
+      border-radius: 5px;
+    }
+    #resultContainer h2 {
+      float: left;
+      color: #777777;
+    }
+    textarea {
+      box-sizing: border-box;
+      width: 95%;
+      height: 80%;
+      margin: 10px;
+      border: none;
+      font-family: SourceCodeProRegular, Menlo, Monaco, consolas, monospace;
+      font-size: medium;
+      padding: 10px;
+    }
+    iframe {
+      box-sizing: border-box;
+      margin: 8px;
+      width: 97%;
+      height: 80%;
+      border: none;
+    }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>CodePlayer</h1>
+      <div id=controls>
+        <button class="btn btn-html selected">HTML</button>
+        <button class="btn btn-css selected">CSS</button>
+        <button class="btn btn-result selected">Result</button>
+        <button class="btn btn-run">Run</button>
+      </div>
+    </header>
+
+    <section id="htmlContainer">
+      <h2>HTML</h2>
+      <textarea id="htmlCode"></textarea>
+    </section>
+
+    <section id="cssContainer">
+      <h2>CSS</h2>
+      <textarea id="cssCode"></textarea>
+    </section>
+
+    <section id="resultContainer">
+      <h2>Result</h2>
+      <iframe></iframe>
+    </section>
+
+    <script>
+    $(".btn").click(function() {
+
+      $(this).toggleClass("selected");
+
+      var activeSection = $(this).html().toLowerCase();
+
+      $("#"+activeSection+"Container").toggle();
+
+      var displayingSection = $("section").filter(function() {
+        return($(this).css("display") != "none");
+      }).length;
+
+      var width = 100/displayingSection;
+      $("section").css("width", (width-0.1) + "%");
+
+    });
+
+    $(".btn-run").click(function() {
+      $("iframe").contents().find("html").html('<style>'+$("#cssCode").val()+'</style>'+$("#htmlCode").val());
+    })
+
+    </script>
+
+  </body>
+</html>
